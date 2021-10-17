@@ -11,7 +11,7 @@ def load_data(messages_filepath, categories_filepath):
     messages = pd.read_csv(messages_filepath)
     # load categories dataset
     categories = pd.read_csv(categories_filepath)
-    # merge datasets
+    # merge messages and categories datasets
     df = messages.merge(categories, on='id')
     # create a dataframe of the 36 individual category columns
     categories = df['categories'].str.split(pat=';', n=-1, expand=True)
