@@ -7,6 +7,16 @@ from sqlalchemy import create_engine
 
 
 def load_data(messages_filepath, categories_filepath):
+    """
+    Description: This function reads in the messages and categories csv datasets into Pandas DataFrames,
+    merges them and generates dummy columns of the categories column, preparing the pd DataFrame for
+    feeding it into a machine learning model
+    Arguments:
+        messages_filepath: data/disaster_messages.csv
+        categories_filepath: data/disaster_categories.csv
+    Returns:
+        df: DisasterResponse data as a processed pandas DataFrame
+    """
     # load messages dataset
     messages = pd.read_csv(messages_filepath)
     # load categories dataset
@@ -36,6 +46,13 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+    """
+    Description: This function cleans the dataset by removing duplicates from it
+    Arguments:
+        df: pandas DataFrame
+    Returns:
+        df: cleaned DataFrame with duplicates removed
+    """
     # check number of duplicates
     np.sum(df.duplicated())
     # drop duplicates
@@ -46,11 +63,27 @@ def clean_data(df):
 
 
 def save_data(df, database_filename):
+    """
+    Description: This function saves the processed and cleaned DataFrame into a sqlite database
+    Arguments:
+        df: pandas DataFrame, processed (with category dummy columns) and cleaned
+        database_filename: data/DisasterResponse.db
+    Returns:
+        None
+    """
     engine = create_engine(f'sqlite:///{database_filename}')
     df.to_sql('InsertTableName', engine, index=False)
 
 
 def main():
+    """
+    Description: This function serves as a vehicle to run the other functions and
+    indicate the steps in the process with print statements
+    Arguments:
+        None
+    Returns:
+        None
+    """
     if len(sys.argv) == 4:
 
         messages_filepath, categories_filepath, database_filepath = sys.argv[1:]
